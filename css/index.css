@@ -1,0 +1,46 @@
+div {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+#board {
+  display: inline-block
+}
+
+.space {
+  display: inline-block;
+  margin: 0.5px
+}
+
+.homeBoard {
+  display: inline-block
+}
+
+.piece {
+  display: inline-block
+}
+
+.player0 {
+  background-color: green
+}
+
+.player1 {
+  background-color: red
+}
+
+.player2 {
+  background-color: blue
+}
+
+.player3 {
+  background-color: yellow
+}
+
+.die {
+  display: inline-block
+}
+
+#timer {
+  display: inline-block;
+  text-align: center
+}
