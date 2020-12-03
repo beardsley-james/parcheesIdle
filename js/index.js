@@ -5,14 +5,16 @@ if (localStorage.getItem("save")) {
     boardLength: 24,
     name: "Default",
     pieces: [
-      [0, 0, 0, 0],
-      [0, 0, 3, 0],
-      [0, 0, 0, 5],
-      [0, 7, 0, 0]
+      [0],
+      [0],
+      [0],
+      [0]
     ],
-    dice: [1, 1],
-    speed: 1000,
-    turn: 0
+    dice: [1],
+    speed: 500,
+    turn: 0,
+    maxDie: 6,
+    score: 0
   }
 }
 
@@ -74,6 +76,55 @@ for (i = 0; i < game.dice.length; i++){
   dice.appendChild(die)
 }
 
+let score = document.createElement("div");
+score.innerHTML = "Points: ";
+score.id = "score";
+let scoreValue = document.createElement("span");
+scoreValue.innerHTML = game.score;
+scoreValue.id = "scoreValue";
+score.appendChild(scoreValue);
+dice.appendChild(score);
+
 board.appendChild(dice);
 
 document.body.appendChild(board)
+
+function rollDie(){
+  let roll = Math.floor(Math.random() * (game.maxDie)) + 1;
+  console.log(roll);
+  let pieceNumber = selectRandomPiece();
+  console.log(pieceNumber);
+  game.pieces[game.turn][pieceNumber] = game.pieces[game.turn][pieceNumber] + roll;
+  if (game.pieces[game.turn][pieceNumber] > 23) {
+    let piece = document.getElementById("p" + game.turn + "n" + pieceNumber);
+    let homeBoard = document.getElementById("homeBoard" + game.turn);
+    game.pieces[game.turn][pieceNumber] = 0;
+    homeBoard.appendChild(piece);
+    if (game.turn == 0) {
+      game.score += 1
+    }
+    document.getElementById("scoreValue").innerHTML = game.score
+  } else {
+    let piece = document.getElementById("p" + game.turn + "n" + pieceNumber);
+    let space = document.getElementById("space" + game.pieces[game.turn][pieceNumber]);
+    space.appendChild(piece)
+  }
+  return roll
+}
+
+function selectRandomPiece(){
+  return Math.floor(Math.random() * (game.pieces[game.turn].length))
+}
+
+setTimeout(function timer(){
+  for (i = 0; i < game.dice.length; i++){
+    game.dice[i] = rollDie(game.dice[i]);
+    let die = document.getElementById("die" + i);
+    die.innerHTML = game.dice[i]
+  }
+  game.turn += 1;
+  if (game.turn == game.pieces.length){
+    game.turn = 0
+  }
+  setTimeout(timer, game.speed)
+}, game.speed)

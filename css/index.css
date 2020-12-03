@@ -44,3 +44,7 @@ div {
   display: inline-block;
   text-align: center
 }
+
+#score {
+  display: inline-block
+}
